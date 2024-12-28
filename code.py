@@ -47,3 +47,32 @@ str2 = "TikTok platform is gaining popularity"
 print("Cosine Similarity:", compute_cosine_similarity(str1, str2))
 # -------------------------------------------------
 
+# Optimzied
+from collections import Counter
+import math
+
+def compute_cosine_similarity(str1, str2):
+    # Tokenize and count word frequencies
+    freq1 = Counter(str1.lower().split())
+    freq2 = Counter(str2.lower().split())
+    
+    # Compute dot product directly
+    dot_product = sum(freq1[word] * freq2[word] for word in freq1.keys() & freq2.keys())
+    
+    # Compute magnitudes directly
+    magnitude1 = math.sqrt(sum(v ** 2 for v in freq1.values()))
+    magnitude2 = math.sqrt(sum(v ** 2 for v in freq2.values()))
+    
+    # Avoid division by zero
+    if magnitude1 == 0 or magnitude2 == 0:
+        return 0
+    
+    # Compute cosine similarity
+    cosine_similarity = dot_product / (magnitude1 * magnitude2)
+    return round(cosine_similarity, 3)
+
+# Example usage
+str1 = "TikTok is a popular platform"
+str2 = "TikTok platform is gaining popularity"
+print("Cosine Similarity:", compute_cosine_similarity(str1, str2))
+# -------------------------------------------------
